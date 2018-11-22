@@ -1,0 +1,24 @@
+
+CREATE TABLE `event` (
+  `id_event` int(11) NOT NULL auto_increment,
+  `event_name` varchar(30) NOT NULL,
+  `event_date` date NOT NULL,
+  `picture` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id_event`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=cp1251 AUTO_INCREMENT=11 ;
+
+-- 
+-- Дамп данных таблицы `event`
+-- 
+
+INSERT INTO `event` VALUES (1, 'День знайомств', '2018-06-22', 'img1.png');
+INSERT INTO `event` VALUES (2, ' Відкриття II зміни', '2018-06-23', 'img2.png');
+INSERT INTO `event` VALUES (3, ' Казковий квест', '2018-06-24', 'img3.png');
+INSERT INTO `event` VALUES (4, 'Конкурс відеокліпів', '2018-06-25', 'img6.png');
+INSERT INTO `event` VALUES (5, 'Квест "Голодні ігри"', '2018-06-26', 'img4.png');
+INSERT INTO `event` VALUES (6, 'Шалений зоопарк', '2018-06-27', 'img5.png');
+INSERT INTO `event` VALUES (7, 'Супердітки проти Супервожатих', '2018-06-28', 'img7.png');
+INSERT INTO `event` VALUES (8, 'Віденський бал', '2018-06-29', 'img8.png');
+INSERT INTO `event` VALUES (9, 'Свято морозива', '2018-06-30', 'img9.png');
+INSERT INTO `event` VALUES (10, 'День Нептуна', '2018-07-01', 'img10.png');
+        

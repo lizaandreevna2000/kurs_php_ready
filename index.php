@@ -1,7 +1,6 @@
 <?php
 session_start();
-$admin = 'admin';
-$pass = 'mypass';
+
 $connect=mysqli_connect("localhost","root","","yubik");
 mysqli_query($connect,"SET NAMES UTF8");
 $query = "SELECT event_date, event_name,picture FROM event ORDER BY id_event";  

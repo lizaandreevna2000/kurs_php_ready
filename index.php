@@ -1,11 +1,14 @@
 <?php
+session_start();
+$admin = 'admin';
+$pass = 'mypass';
 $connect=mysqli_connect("localhost","root","","yubik");
+mysqli_query($connect,"SET NAMES UTF8");
 $query = "SELECT event_date, event_name,picture FROM event ORDER BY id_event";  
 $result = mysqli_query($connect, $query);  
-mysqli_query($connect,"SET NAMES UTF8");
-$q="SELECT ped_sostav.FIO, ped_sostav.Info, ped_sostav.dolzhn, sotr_otr.picture FROM ped_sostav INNER JOIN sotr_otr ON ped_sostav.id_ped=sotr_otr.id_ped ORDER BY id_otr";
-$res=mysqli_query($connect, $q); 
 
+$q="SELECT ped_sostav.id_ped, ped_sostav.FIO, ped_sostav.Info, ped_sostav.dolzhn, sotr_otr.picture FROM ped_sostav INNER JOIN sotr_otr ON ped_sostav.id_ped=sotr_otr.id_ped ORDER BY id_otr";
+$res=mysqli_query($connect, $q); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,49 +31,19 @@ $res=mysqli_query($connect, $q);
 <body>
 	
 	<div id="header" class="main_flex flex__jcontent_center flex__align-content_space-between">
-				<div id="top header" 
-				class="wrap main_flex__nowrap flex__align-items_start
-				flex__jcontent_center">
-					
+			<div id="top header" class="wrap main_flex__nowrap flex__align-items_start flex__jcontent_center">
 					<div id="logo">
 						<img src="img/logo.png">
 					</div>
+			</div>
 				
-
-					</div>
-					
-			   <!-- <div id="smena" class="wrap main_flex__nowrap flex__align-items_center
-				flex__jcontent_between">
-				<div id="smena_kool">
-						<p>I зміна</p>
-						<p>2.06-20.06</p>
-						
-						
-					
-					</div>
-				
-					<div id="smena_kool">
-						<p>II зміна</p>
-						<p>22.06-12.07</p>
-					</div>
-				<div id="smena_kool">
-						<p>III зміна</p>
-						<p>14.07-2.08</p>
-					
-					</div>
-				
-				</div>-->
-				
-		<div id="bottom_header">
-					<nav class="wrap main_flex__nowrap
-					flex__align-items_end
-					flex__jcontent_between">
+			<div id="bottom_header">
+				<nav class="wrap main_flex__nowrap flex__align-items_end flex__jcontent_between">
 					<li><a href="#about">Про нас</a></li>
 					<li><a href="#news">Новини табору</a></li>
 					<li><a href="#rozklad">Розклад дня</a></li>
 					<li><a href="#kalendar">Календар зміни</a></li>
 					<li><a href="#vozhati">Педагогічний склад</a></li>
-					
 				</nav>		
 			</div>
 	</div>
@@ -175,9 +148,9 @@ $res=mysqli_query($connect, $q);
                
                   
                 <div class="col-md-5">
-                     <input type="button" name="çíàéòè" id="filter" value="Filter" class="btn btn-info" />  
+                     <input type="button" name="çíàéòè" id="filter" value="Знайти" class="btn btn-info" />  
 
-                     <input type="button" name="çíàéòè" id="cancel" value="cancel" class="btn btn-info" />  
+                     <input type="button" name="çíàéòè" id="cancel" value="Скасувати" class="btn btn-info" />  
 
 
 				</div>
@@ -220,11 +193,12 @@ $res=mysqli_query($connect, $q);
 		</div>
 			<div class="wrap main_flex__nowrap
 			flex__jcontent_between" id="slider">
-			<?php  
+			<?php
+		
                      while($row = mysqli_fetch_array($res))  
                      {  
                      ?>		
-				<div class="box_tm">
+				<div class="box_tm" id="vash-<?php echo $row['id_ped'];?>">
 					
 					<div class="img_tm">
 						<div class="box_img_tm main_flex__nowrap flex__align-content_center flex__align-items_center flex__jcontent_center">
@@ -251,13 +225,48 @@ $res=mysqli_query($connect, $q);
 	
 	<footer>
 	<div id="cooper">
-	<a href="#add_data_Modal" id="add" data-toggle="modal"data-target="#add_data_Modal">@2018 Kosenko</a>
+	<?php if(isset($_COOKIE['admin'])){?>
+		<a href="#admin_form" id="adminka" data-toggle="modal" data-target="#add_data_Modal">@2018 Kosenko</a>
+	<?php }else{?>
+		<a href="#admin_form" id="adminka" data-toggle="modal" data-target="#admin_form">@2018 Kosenko</a>
+	<?php } ?>
+	</div>
+	
 	
 	</div>
 	
 	</footer>
 </body>
+
 </html>
+
+
+
+<div id="admin_form" class="modal fade">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+		<div class="modal-body">
+
+
+<form method="post" id="admin" action="add_data_Modal">
+
+     <label>Логин</label>
+		<input type="text" name="login" id="login" class="form-control" />
+		<br />
+     <label>Пароль</label>
+		<input type="password" name="pass" id="pass" class="form-control" />
+		<br/>
+	 <input type="submit" name="submit" id="ok" value="Ok" class="btn btn-success" />
+</form>
+
+	</div>
+</div>
+</div>
+</div>
+</div>
+
+
 <div id="add_data_Modal" class="modal fade">
  <div class="modal-dialog">
   <div class="modal-content">
@@ -360,7 +369,7 @@ $res=mysqli_query($connect, $q);
   
            });  
 
-         
+        
 		$('#insert_form').on("submit", function(event){  
 		event.preventDefault(); 
 		if($('#name').val() == "")  
@@ -391,28 +400,60 @@ $res=mysqli_query($connect, $q);
 				success:function(data){  
 					$('#insert_form')[0].reset();  
 					$('#add_data_Modal').modal('hide');  
-					$('#slider').html(data);  
+					//$('#slider').html(data);  
+					//alert(data);
+					$('#slider').slick('slickAdd',data);
 				}  
 			});  
 		}  
 
       }); 
-		$('#insert_form').on('click', '.delete', function(){
+		$('#insert_form').on('click', '.delete', function(event){
+			event.preventDefault();
 			 var delete_val = $('#name').val();  
 			  if(delete_val != '')  
-			  {
+			  {  
+			  	 
 			  	 $.ajax({  
-                       url:"delete.php",  
-                       method:"POST", 
-                       data:{delete_val:delete_val}, 
-                       success:function(data){ 
+						url:"delete.php",  
+                      	method:"POST", 
+                       	data:$('#insert_form').serialize(),
+					   	dataType:"json",
+                    	success:function(data){ 
 						$('#insert_form')[0].reset();  
 						$('#add_data_Modal').modal('hide');
-						$('#slider').html(data);  
-                       }
+						alert(data);
+						$('#vash-'+data).remove();
+						},
+						error: function(er){
+							console.log(er);
+						}
+			
 			  })
 
-			 }; 
-		 }); 
+			 }
+		 });
+		 $('#admin').submit(function(event){  
+			event.preventDefault();
+		 	var login=$('#login').val();
+			var pass=$('#pass').val();
+			if((login!='')||(pass!='')){
+				$.ajax({  
+				url:"user.php",  
+                method:"POST", 
+				dataType:"json",
+				data:$('#admin').serialize(),
+				success:function(data){
+					if(data==true){
+						$('#admin_form').modal('hide'); 
+						$('#add_data_Modal').modal('show');  
+					}else{
+						alert(data);
+					}
+				}				
+			});
+		}
+    		 }); 
+
      }); 
  </script>

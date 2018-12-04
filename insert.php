@@ -1,6 +1,6 @@
 <?php 
-
 $connect = mysqli_connect("localhost", "root", "", "yubik");
+mysqli_query($connect,"SET NAMES UTF8");
 if(!empty($_POST))
 {
  $output = '';
@@ -23,36 +23,28 @@ if(!empty($_POST))
     {
      $select_query="SELECT ped_sostav.FIO, ped_sostav.Info,ped_sostav.dolzhn,sotr_otr.picture FROM ped_sostav INNER JOIN sotr_otr ON ped_sostav.id_ped=sotr_otr.id_ped ORDER BY id_otr";
      $result = mysqli_query($connect, $select_query);
-     $output .= '<div class="wrap main_flex__nowrap
-			flex__jcontent_between" id="slider">
-    		
-     ';
+
      while($row = mysqli_fetch_array($result))
      {
-      $output .= '
+      $output = '
       
-                    <div class="box_tm">
-                    <div class="img_tm">
-                        <div class="box_img_tm main_flex__nowrap flex__align-content_center flex__align-items_center flex__jcontent_center">
-                            <img src="img/'.$row["picture"].'" alt="">
+                    <div class="box_tm">               
+                        <div class="img_tm">
+                            <div class="box_img_tm main_flex__nowrap flex__align-content_center flex__align-items_center flex__jcontent_center">
+                                <img src="img/'.$row["picture"].'" alt="">
+                            </div>
                         </div>
-                    </div>
-                    <div class="name_tm">
-                        <h3>'.$row["FIO"].'</h3>
-                        <h4>'.$row["dolzhn"].'</h4>
-                    </div>
-                    <div class="text_tm">
-                        '.$row["Info"].'
-                    </div>
-                    
-                </div>
-				<div>
-
-
-
+                        <div class="name_tm">
+                            <h3>'.$row["FIO"].'</h3>
+                            <h4>'.$row["dolzhn"].'</h4>
+                        </div>
+                        <div class="text_tm">
+                            '.$row["Info"].'
+                        </div>
+				    <div>
       ';
      }
-     $output .= '<div>';
+
     }
     echo $output;
 }

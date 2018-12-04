@@ -24,22 +24,22 @@ $(function(){
 			$('#bottom_header').removeClass('fixedNav');
 		}
 	});
-	if((window.innerWidth)>1024){
+	/*if(window.innerWidth>1024){
+	$('#slider').slick({
+		slidesToShow: ,
+  		slidesToScroll: ,
+  		autoplay: true,
+  		autoplaySpeed: 2000,
+	});
+}
+else{*/
 	$('#slider').slick({
 		slidesToShow: 3,
   		slidesToScroll: 1,
   		autoplay: true,
   		autoplaySpeed: 2000,
-	});
-}
-else{
-	$('#slider').slick({
-		slidesToShow: 1,
-  		slidesToScroll: 1,
-  		autoplay: true,
-  		autoplaySpeed: 2000,
 
 	});
-	$('.box_img_tm').css("left","33vw")
-}
+	$('.box_img_tm').css("left","8vw")
+
 });
